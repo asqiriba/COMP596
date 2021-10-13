@@ -1,7 +1,7 @@
 """
 """
 
-from data import DataObject
+from Models.data import DataObject
 
 class DataCU:
     def __init__(self, hex_values) -> None:
