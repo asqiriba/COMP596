@@ -29,14 +29,14 @@ class DataObject:
     def __str__(self) -> str:
         return f"""
         Start delimiter: {self.start_delimeter}
-        Length: 00 12 (18)
-        Frame type: 92 (IO Data Sample RX Indicator)
-        64-bit source address: 00 13 A2 00 41 CB FD FC
-        16-bit source address: A7 CE
-        Receive options: 01
-        Number of samples: 01
-        Digital channel mask: 00 00
-        Analog channel mask: 08
-        DIO3/AD3 analog value: 02 55 (597)
-        Checksum: DD
+        Length: {self.length}
+        Frame type: {self.frame_type} (IO Data Sample RX Indicator)
+        64-bit source address: {self.sixtyfour_address}
+        16-bit source address: {self.sixteen_address}
+        Receive options: {self.receive_options}
+        Number of samples: {self.number_samples}
+        Digital channel mask: {self.digital_channel_mask}
+        Analog channel mask: {self.analog_channel_mask}
+        DIO3/AD3 analog value: {self.analog_value}
+        Checksum: {self.checksum}
         """
