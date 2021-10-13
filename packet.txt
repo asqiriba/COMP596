@@ -1,0 +1,15 @@
+IO Data Sample RX Indicator (API 1)
+
+7E 00 12 92 00 13 A2 00 41 CB FD FC A7 CE 01 01 00 00 08 02 55 DD
+
+Start delimiter: 7E
+Length: 00 12 (18)
+Frame type: 92 (IO Data Sample RX Indicator)
+64-bit source address: 00 13 A2 00 41 CB FD FC
+16-bit source address: A7 CE
+Receive options: 01
+Number of samples: 01
+Digital channel mask: 00 00
+Analog channel mask: 08
+DIO3/AD3 analog value: 02 55 (597)
+Checksum: DD
