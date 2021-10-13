@@ -3,7 +3,6 @@
 
 from data import DataObject
 
-
 class DataCU:
     def __init__(self, hex_values) -> None:
         self.raw_data = hex_values
@@ -36,3 +35,6 @@ class DataCU:
         for data in self.data_object:
             index += 1
             print(index, data)
+    
+    def clean_values(self):
+        return self.data_object

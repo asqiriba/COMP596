@@ -1,5 +1,6 @@
 """
 """
+
 import os.path
 
 class Parser:
