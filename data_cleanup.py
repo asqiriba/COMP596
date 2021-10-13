@@ -32,5 +32,7 @@ class DataCU:
                 )
             )
         
+        index = -1
         for data in self.data_object:
-            print(data)
+            index += 1
+            print(index, data)
