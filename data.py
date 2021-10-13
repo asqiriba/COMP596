@@ -1,6 +1,6 @@
 class DataObject:
     def __init__(
-        self, 
+        self,
         start_delimeter,
         length,
         frame_type,
