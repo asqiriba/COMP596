@@ -25,6 +25,7 @@ class Parser:
                 self.packets.append(line.split(","))
         
         self._get_hex()
+        return self.digital_outputs
     
     def _get_hex(self):
         for date, index, api, hex in self.packets:
@@ -43,5 +44,4 @@ class Parser:
             self.digital_outputs.append(date)
 
 if(__name__ == "__main__"):
-    parser = Parser("COMP596/api_console_session_2021-10-12.log")
-    parser.read_packets()
+    pass
