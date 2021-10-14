@@ -26,8 +26,11 @@ if(__name__ == "__main__"):
 
     print(f"Message to be sent: {encryptor.ingest()}")
 
+
+
 # Send message here.
 
 # Key lecture from other end.
-    # key_file = key.read_key()
-    # Encrypt
+    decryptor = Encrypt(key=key.read_key(), message=encryptor.ingest())
+
+    print(f"Message to get: {decryptor.digest()}")

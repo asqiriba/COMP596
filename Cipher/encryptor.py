@@ -9,13 +9,17 @@ class Encrypt:
         self.key = key
         self.message = message
 
-    def _data_process(self, list):
-        encoded_list = []
+    def _data_process(self, list, mode):
+        coded_list = []
 
-        for element in list:
-            encoded_list.append(element.encode())
+        if(mode == "e"):
+            for element in list:
+                coded_list.append(element.encode())
+        else:
+            for element in list:
+                coded_list.append(element.decode())
         
-        return encoded_list
+        return coded_list
 
     def _data_encryption(self, algorithm, list):
         encrypted_list = []
@@ -25,9 +29,23 @@ class Encrypt:
         
         return encrypted_list
 
+    def _data_decryption(self, algorithm, list):
+        decrypted_list = []
+
+        for element in list:
+            decrypted_list.append(algorithm.decrypt(element))
+        
+        return decrypted_list
+
     def ingest(self):
         algorithm = Fernet(self.key)
-        clean_messages = self._data_process(list=self.message)
+        clean_messages = self._data_process(list=self.message, mode="e")
         encrypted_messages = self._data_encryption(algorithm=algorithm, list=clean_messages)
 
         return encrypted_messages
+
+    def digest(self):
+        algorithm = Fernet(self.key)
+        decrypted_messages = self._data_decryption(algorithm=algorithm, list=self.message)
+
+        return decrypted_messages
