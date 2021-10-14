@@ -1,7 +1,8 @@
 from cryptography.fernet import Fernet
 
 class KeyGen:
-    _PATH = "COMP596/Cipher/pass.key"
+    # _PATH = "COMP596/Cipher/pass.key"
+    _PATH = "/home/federiz/Documents/Git/COMP596/Cipher/pass.key"
 
     def write_key(self):
         key = Fernet.generate_key()

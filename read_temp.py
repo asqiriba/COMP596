@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 """
 
@@ -6,7 +7,8 @@ from Services.log_parser import Parser
 from Cipher.generator import KeyGen
 from Cipher.encryptor import Encrypt
 
-PATH = "COMP596/Data/api_console_session_2021-10-12.log"
+# PATH = "COMP596/Data/api_console_session_2021-10-12.log"
+PATH = "/home/federiz/Documents/Git/COMP596/Data/api_console_session_2021-10-12.log"
 
 if(__name__ == "__main__"):
     parser = Parser(path=PATH)
