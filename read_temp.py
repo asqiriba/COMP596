@@ -33,4 +33,4 @@ if(__name__ == "__main__"):
 # Key lecture from other end.
     decryptor = Encrypt(key=key.read_key(), message=encryptor.ingest())
 
-    print(f"Message to get: {decryptor.digest()}")
+    print(f"Message gotten: {decryptor.digest()}")

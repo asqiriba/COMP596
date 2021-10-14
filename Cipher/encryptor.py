@@ -47,5 +47,6 @@ class Encrypt:
     def digest(self):
         algorithm = Fernet(self.key)
         decrypted_messages = self._data_decryption(algorithm=algorithm, list=self.message)
+        clean_messages = self._data_process(list=decrypted_messages, mode="d")
 
-        return decrypted_messages
+        return clean_messages
