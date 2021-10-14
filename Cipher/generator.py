@@ -16,7 +16,7 @@ class KeyGen:
             f = open(self._PATH, 'rb')
 
         except OSError:
-            print("Could not read key.")
+            print("Could not read key file.")
             return
 
         with f:
@@ -25,6 +25,6 @@ class KeyGen:
             for line in f:
                 key = line
 
-            print(f"\n\n\nKey read: {f}\n\n\n")
+            print(f"\n\n\nKey read as bit-map under: {self._PATH}\n\n\n")
 
             return key
