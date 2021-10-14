@@ -4,6 +4,7 @@
 from Services.data_cleanup import DataCU
 from Services.log_parser import Parser
 from Cipher.generator import KeyGen
+from Cipher.encryptor import Encrypt
 
 PATH = "COMP596/Data/api_console_session_2021-10-12.log"
 
@@ -21,5 +22,12 @@ if(__name__ == "__main__"):
     for data in clean_data:
         temperatures.append(data.analog_value)
 
-    k = key.read_key()
-    print(k)
+    encryptor = Encrypt(key=key.read_key(), message=temperatures)
+
+    print(f"Message to be sent: {encryptor.ingest()}")
+
+# Send message here.
+
+# Key lecture from other end.
+    # key_file = key.read_key()
+    # Encrypt
