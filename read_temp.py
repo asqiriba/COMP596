@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 """
+
+Note:
+    To write into /requirements.txt run     pipreqs --force .
+
 """
 
 from Services.data_cleanup import DataCU
