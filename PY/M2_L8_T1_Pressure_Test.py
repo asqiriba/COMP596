@@ -23,7 +23,7 @@ import Pressure_Fun as Pres
 
 LCD.LCD_init()   # Initialize the LCD
 if( not Pres.Pressure_init()):
-    print "Pressure Sensor initialization error.  Exiting program"
+    print ("Pressure Sensor initialization error.  Exiting program")
     exit()
 LCD.LCD_clear()
 
