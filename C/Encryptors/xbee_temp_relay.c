@@ -253,6 +253,7 @@ char *encrypt(char *plaintext, char *key)
 	state = state ^ subkeys[31];
 	//free the memory of the subkeys (they are not needed anymore)
 	free(subkeys);
+
 	return fromLongToHexString(state);
 }
 // function for decrypting a block using a key
@@ -287,6 +288,7 @@ char *decrypt(char *ciphertext, char *key)
 	state = state ^ subkeys[0];
 	//free the memory of the subkeys (they are not needed anymore)
 	free(subkeys);
+
 	return fromLongToHexString(state);
 }
 
