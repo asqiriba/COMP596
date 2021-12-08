@@ -336,14 +336,16 @@ int main()
 	char *key = malloc(21 * sizeof(char));
 	char *plaintext, *ciphertext, *deciphertext;
 
-	key = "1234567890";
-	plaintext = "1234567890";
+	key = "31323334353637383930";
+	plaintext = "3237";
 	ciphertext = encrypt(plaintext, key);
 	deciphertext = decrypt(ciphertext, key);
 
 	printf("Plain_text_hex: %s\n", plaintext);
-	printf("Cipher_text_hex: %s\n", ciphertext);
-	printf("Decipher_text_hex: %s\n", deciphertext);
+	printf("Cipher_text_hex: %x\n", ciphertext);
+	puts(ciphertext);
+	printf("Decipher_text_hex: %x\n", *deciphertext);
+	puts(deciphertext);
 
 	/*
 	while (1)
