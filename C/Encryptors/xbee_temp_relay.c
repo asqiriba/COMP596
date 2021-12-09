@@ -1,13 +1,17 @@
+/**
+ * sudo minicom --device /dev/ttyACM0
+ * gcc xbee_temp_relay.c -lmraa -o temp_relay
+ */
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include "present.h"
-// #include "mraa_beaglebone_pinmap.h"
+#include "mraa_beaglebone_pinmap.h"
 
-// #define LCD_ADDR 0x3e // I2C address of the LCD.
+#define LCD_ADDR 0x3e // I2C address of the LCD.
 
-// mraa_gpio_context Relay_pin;
-// mraa_i2c_context i2cp;
+mraa_gpio_context Relay_pin;
+mraa_i2c_context i2cp;
 
 typedef struct __attribute__((__packed__)) byte
 {
@@ -37,51 +41,51 @@ byte *fromHexStringToBytes(char *block)
 	return bytes;
 }
 
-// void home_LCD(void)
-// {
-// 	uint8_t buf[2] = {0x00, 0x02};
-// 	mraa_i2c_write(i2cp, buf, 2); //Set to Home
-// }
+void home_LCD(void)
+{
+	uint8_t buf[2] = {0x00, 0x02};
+	mraa_i2c_write(i2cp, buf, 2); //Set to Home
+}
 
-// void LCD_Print(char *str)
-// {
-// 	uint8_t buf[80];
+void LCD_Print(char *str)
+{
+	uint8_t buf[80];
 
-// 	int32_t i = 0, strl, j = 0;
+	int32_t i = 0, strl, j = 0;
 
-// 	buf[i] = 0x40; //register for display
-// 	strl = strlen((char *)str);
-// 	for (j = 0; j < strl; j++)
-// 	{
-// 		i++;
-// 		buf[i] = str[j];
-// 	}
+	buf[i] = 0x40; //register for display
+	strl = strlen((char *)str);
+	for (j = 0; j < strl; j++)
+	{
+		i++;
+		buf[i] = str[j];
+	}
 
-// 	mraa_i2c_write(i2cp, buf, i + 1);
-// }
+	mraa_i2c_write(i2cp, buf, i + 1);
+}
 
-// void LCD_init(void)
-// {
-// 	uint8_t init1[2] = {0x00, 0x38};
-// 	uint8_t init2[8] = {0x00, 0x39, 0x14, 0x74, 0x54, 0x6f, 0x0c, 0x01};
-// 	// 2 lines 8 bit 3.3V Version
-// 	mraa_i2c_write(i2cp, init1, 2);
-// 	mraa_i2c_write(i2cp, init2, 8); //Function Set
-// }
+void LCD_init(void)
+{
+	uint8_t init1[2] = {0x00, 0x38};
+	uint8_t init2[8] = {0x00, 0x39, 0x14, 0x74, 0x54, 0x6f, 0x0c, 0x01};
+	// 2 lines 8 bit 3.3V Version
+	mraa_i2c_write(i2cp, init1, 2);
+	mraa_i2c_write(i2cp, init2, 8); //Function Set
+}
 
-// void clear_LCD(void)
-// {
-// 	uint8_t buf[2] = {0x00, 0x01};
+void clear_LCD(void)
+{
+	uint8_t buf[2] = {0x00, 0x01};
 
-// 	mraa_i2c_write(i2cp, buf, 2); //Clear Display
-// }
+	mraa_i2c_write(i2cp, buf, 2); //Clear Display
+}
 
-// void nextline_LCD(void)
-// {
-// 	uint8_t buf[2] = {0x00, 0xC0};
+void nextline_LCD(void)
+{
+	uint8_t buf[2] = {0x00, 0xC0};
 
-// 	mraa_i2c_write(i2cp, buf, 2); //2nd line of LCD Display
-// }
+	mraa_i2c_write(i2cp, buf, 2); //2nd line of LCD Display
+}
 
 // function for converting an array of bytes to a 64-bit integer
 uint64_t fromBytesToLong(byte *bytes)
@@ -156,7 +160,7 @@ uint8_t inverseSbox(uint8_t input)
 	return invS[input];
 }
 /*
-    function that performs the permutation according to the permutation table P
+    Function that performs the permutation according to the permutation table P
     The permutation is done by adding one bit at a time from the source block to the appropriate location in the result.
     In each iteration the following is performed:
     1) calculate the distance of the bit that is supposed to be added next from the least significant bit (at position 63)
@@ -177,7 +181,7 @@ uint64_t permute(uint64_t source)
 	return permutation;
 }
 /*
-    function that performs the inverse permutation according to the table P
+    Function that performs the inverse permutation according to the table P
     Again, the permutation is done by adding one bit at a time to the result.
     In each iteration the following is performed:
     1) calculate the position of the bit that should be on the i-th position
@@ -310,59 +314,49 @@ char *decrypt(char *ciphertext, char *key)
 
 unsigned int threshold = 90;
 
-// int main(int argc, char **argv)
-int main()
+int main(int argc, char **argv)
+// int main()
 {
 	char buffer[1024], buf_Xbee[1024];
 	unsigned int ADC = 0, timeout = 2000;
 	double Temp = 0, V36 = 0;
-	char dev_string[] = "/dev/ttyS1";
-
-	// mraa_init();
-
-	// i2cp = mraa_i2c_init_raw(I2CP_BUS);
-	// mraa_i2c_frequency(i2cp, MRAA_I2C_STD);
-	// mraa_i2c_address(i2cp, LCD_ADDR);
-
-	// Relay_pin = mraa_gpio_init(RELAY_PIN);
-	// mraa_gpio_dir(Relay_pin, MRAA_GPIO_OUT);
-
-	// mraa_uart_context uart;
-	// mraa_boolean_t isDataReady;
-	// uart = mraa_uart_init_raw(dev_string);
-	// mraa_uart_set_baudrate(uart, 9600);
-	// mraa_uart_set_mode(uart, 8, MRAA_UART_PARITY_NONE, 1);
-	// mraa_uart_set_flowcontrol(uart, 0, 0);
-	// mraa_uart_set_timeout(uart, 0, 0, 0);
-
-	// if (uart == NULL)
-	// {
-	// 	printf("UART failed to setup\n");
-	// 	return 0;
-	// }
-
-	// LCD_init();
-	// clear_LCD();
-	// home_LCD();
-	// LCD_Print((char *)("ASCIIriba"));
-	// sleep(1);
-
-	// mraa_gpio_write(Relay_pin, 0);
-
 	char *key = malloc(21 * sizeof(char));
 	char *plaintext, *ciphertext, *deciphertext;
+	char dev_string[] = "/dev/ttyS1";
+
+	mraa_init();
 
 	key = "66546A576E5A7234";
-	plaintext = "3237";
-	ciphertext = encrypt(plaintext, key);
-	deciphertext = decrypt(ciphertext, key);
 
-	printf("Plain_text_hex: %s\n", plaintext);
+	i2cp = mraa_i2c_init_raw(I2CP_BUS);
+	mraa_i2c_frequency(i2cp, MRAA_I2C_STD);
+	mraa_i2c_address(i2cp, LCD_ADDR);
 
-	printf("Cipher_text_hex: %x\n", ciphertext);
-	printf("Decipher_text_hex: %x\n", deciphertext);
+	Relay_pin = mraa_gpio_init(RELAY_PIN);
+	mraa_gpio_dir(Relay_pin, MRAA_GPIO_OUT);
 
-	/*
+	mraa_uart_context uart;
+	mraa_boolean_t isDataReady;
+	uart = mraa_uart_init_raw(dev_string);
+	mraa_uart_set_baudrate(uart, 9600);
+	mraa_uart_set_mode(uart, 8, MRAA_UART_PARITY_NONE, 1);
+	mraa_uart_set_flowcontrol(uart, 0, 0);
+	mraa_uart_set_timeout(uart, 0, 0, 0);
+
+	if (uart == NULL)
+	{
+		printf("UART failed to setup\n");
+		return 0;
+	}
+
+	LCD_init();
+	clear_LCD();
+	home_LCD();
+	LCD_Print((char *)("ASCIIriba"));
+	sleep(1);
+
+	mraa_gpio_write(Relay_pin, 0);
+
 	while (1)
 	{
 		isDataReady = mraa_uart_data_available(uart, timeout);
@@ -375,7 +369,7 @@ int main()
 			V36 = (ADC * 1250) / 1023;
 			Temp = (V36 - 500) / 10;
 
-			printf("Temp:%3.3f'C, Cypher:%u'C\n", Temp, threshold);
+			printf("Temp:%3.3f'C, threshold:%u'C\n", Temp, threshold);
 
 			sprintf(buffer, "Sensor:%3.1f'C", Temp);
 
@@ -394,9 +388,13 @@ int main()
 			}
 			else
 			{
-				sprintf(buffer, "Cypher:%u'C\n", threshold);
+				ciphertext = encrypt(plaintext, key);
+				deciphertext = decrypt(ciphertext, key);
+
+				sprintf(buffer, "Cypher:%u'C\n", ciphertext); // Should this be %u?
 				LCD_Print(buffer);
 				mraa_gpio_write(Relay_pin, 1);
+				printf("Decipher_text_hex: %x\n", deciphertext);
 				sleep(1);
 			}
 		}
@@ -405,7 +403,7 @@ int main()
 			printf("Error: Timeout. UART data not retrieved after %u ms\n", timeout);
 		}
 	}
-*/
+
 	//freeing the allocated memory
 	free(ciphertext);
 	free(deciphertext);
