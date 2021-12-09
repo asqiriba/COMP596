@@ -1,7 +1,8 @@
-// #include "mraa_beaglebone_pinmap.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include "present.h"
+// #include "mraa_beaglebone_pinmap.h"
 
 // #define LCD_ADDR 0x3e // I2C address of the LCD.
 
@@ -121,12 +122,27 @@ byte *fromLongToBytes(uint64_t block)
 	}
 	return bytes;
 }
+
+char *itoa(int val, int base)
+{
+	static char buf[32] = {0};
+
+	int i = 30;
+
+	for (; val && i; --i, val /= base)
+
+		buf[i] = "0123456789abcdef"[val % base];
+
+	return &buf[i + 1];
+}
+
 // function for converting a 64-bit integer to a Hex String
 char *fromLongToHexString(uint64_t block)
 {
 	char *hexString = malloc(17 * sizeof(char));
 	//we print the integer in a String in hexadecimal format
 	sprintf(hexString, "%016lui", block);
+	// printf("%s\n", itoa(hexString, 10));
 	return hexString;
 }
 // function for converting a nibble using the SBox
@@ -336,16 +352,15 @@ int main()
 	char *key = malloc(21 * sizeof(char));
 	char *plaintext, *ciphertext, *deciphertext;
 
-	key = "31323334353637383930";
+	key = "66546A576E5A7234";
 	plaintext = "3237";
 	ciphertext = encrypt(plaintext, key);
 	deciphertext = decrypt(ciphertext, key);
 
 	printf("Plain_text_hex: %s\n", plaintext);
+
 	printf("Cipher_text_hex: %x\n", ciphertext);
-	puts(ciphertext);
-	printf("Decipher_text_hex: %x\n", *deciphertext);
-	puts(deciphertext);
+	printf("Decipher_text_hex: %x\n", deciphertext);
 
 	/*
 	while (1)
